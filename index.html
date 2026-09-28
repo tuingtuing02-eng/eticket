@@ -64,7 +64,7 @@ details{margin-top:8px;font-size:.8rem;color:var(--mu)}
 </head>
 <body>
 <header><div class="w"><h1>🩺 IT Support Fakultas Kedokteran</h1><p>Sampaikan kendala Anda, tim IT akan menindaklanjuti.</p>
-<div class="tabs"><button id="tb1" class="on">Buat Tiket</button><button id="tb2" style="display:none">Dashboard Tim IT</button></div></div></header>
+<div class="tabs"><button id="tb1" class="on">Buat Tiket</button><button id="tb2">Dashboard Tim IT 🔒</button></div></div></header>
 <main>
 <div id="mode" class="mode" style="display:none"></div>
 
@@ -94,6 +94,14 @@ details{margin-top:8px;font-size:.8rem;color:var(--mu)}
 </section>
 
 <section id="v2" class="hide">
+<div class="card" id="lock">
+<h2>🔒 Dashboard Tim IT</h2>
+<div class="hint" style="margin:0 0 8px">Halaman ini khusus petugas IT. Masukkan password untuk melanjutkan.</div>
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="off" placeholder="Masukkan password">
+<div id="err" class="hint" style="color:var(--warn)"></div>
+<button class="btn" id="btnLock">Buka Dashboard</button>
+</div>
+<div id="dash" class="hide">
 <div class="card">
 <h2>Dashboard Tim IT</h2>
 <div class="me"><span>Saya petugas:</span><select id="me"></select></div>
@@ -104,6 +112,8 @@ details{margin-top:8px;font-size:.8rem;color:var(--mu)}
 <select id="fp"><option value="">Semua petugas</option><option value="_none">Belum ditugaskan</option></select>
 </div>
 <div id="list"></div>
+<button class="sm" id="btnOut" style="margin-top:14px;background:var(--bd);color:var(--tx)">Kunci dashboard</button>
+</div>
 </div>
 </section>
 </main>
@@ -148,22 +158,27 @@ function patch(id,p){
   else{tickets.forEach(function(t){if(t._id===id)Object.assign(t,p)});saveLocal();render()}
 }
 (async function(){
-  var canEdit=false;
-  try{var u=await claude.use("user");if(u)canEdit=!!(await u.canEdit())}catch(e){}
   try{
     var db=await claude.use("db");
     if(db){col=db.collection("tickets");shared=true;
       col.onSnapshot(function(sn){tickets=sn.docs.map(function(d){return Object.assign({_id:d.id},d.data())});render()},function(){tickets=[];render()})}
   }catch(e){}
   if(!shared)initLocal();
-  // hanya editor (petugas IT) yang melihat dashboard; mode lokal tidak berisi data bersama
-  var admin=canEdit||!shared;
-  $("tb2").style.display=admin?"":"none";
-  $("mode").style.display=admin?"":"none";
-  if(!admin)tab(1);
   setMode();
 })();
 setMode();
+
+// password dashboard (disimpan sebagai hash, bukan teks asli)
+var PASS_HASH="316c376ab0fc4bb7894639d2c3110c11100e97812f8b971cf5740b54e62ab483";
+async function sha(t){var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("eticket-fk:"+t));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")}
+function showDash(){$("lock").className="card hide";$("dash").className="";$("mode").style.display="";try{sessionStorage.setItem("eticket_ok","1")}catch(e){}}
+function hideDash(){$("dash").className="hide";$("lock").className="card";$("mode").style.display="none";try{sessionStorage.removeItem("eticket_ok")}catch(e){}}
+async function tryOpen(){var ok=false;try{ok=(await sha($("pw").value))===PASS_HASH}catch(e){}
+  if(ok){$("pw").value="";$("err").textContent="";showDash()}else{$("err").textContent="Password salah. Coba lagi."}}
+$("btnLock").onclick=tryOpen;
+$("pw").onkeydown=function(e){if(e.key==="Enter")tryOpen()};
+$("btnOut").onclick=hideDash;
+try{if(sessionStorage.getItem("eticket_ok")==="1")showDash()}catch(e){}
 
 // buat tiket
 $("kirim").onclick=function(){
