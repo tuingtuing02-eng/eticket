@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>E-Ticket IT Support – Fakultas Kedokteran</title>
+<style>
+:root{--bg:#f4f7f6;--card:#fff;--tx:#14231f;--mu:#5d6f69;--bd:#d8e2de;--pr:#0f766e;--prt:#fff;--ac:#e6f4f1;--wa:#1faa59;--warn:#b45309;--wbg:#fef3c7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a17;--card:#152420;--tx:#e8f2ef;--mu:#93a8a1;--bd:#25382f;--pr:#2dd4bf;--prt:#06231e;--ac:#183530;--warn:#fbbf24;--wbg:#3a2f0e}}
+:root[data-theme="dark"]{--bg:#0e1a17;--card:#152420;--tx:#e8f2ef;--mu:#93a8a1;--bd:#25382f;--pr:#2dd4bf;--prt:#06231e;--ac:#183530;--warn:#fbbf24;--wbg:#3a2f0e}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+header{background:var(--pr);color:var(--prt);padding:22px 16px 0}
+.w{max-width:820px;margin:0 auto}
+header h1{margin:0;font-size:1.3rem}header p{margin:4px 0 12px;opacity:.85;font-size:.9rem}
+.tabs{display:flex;gap:6px}
+.tabs button{background:transparent;color:var(--prt);opacity:.75;border-radius:10px 10px 0 0;padding:10px 16px}
+.tabs button.on{background:var(--bg);color:var(--tx);opacity:1}
+main{max-width:820px;margin:0 auto;padding:16px 16px 90px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:16px}
+h2{font-size:1.05rem;margin:0 0 12px}
+label{display:block;font-size:.85rem;font-weight:600;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+textarea{min-height:110px;resize:vertical}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cats input{position:absolute;opacity:0}
+.cats label{margin:0;text-align:center;border:2px solid var(--bd);border-radius:12px;padding:12px 6px;cursor:pointer;font-weight:600}
+.cats label span{display:block;font-size:1.6rem}
+.cats input:checked+label{border-color:var(--pr);background:var(--ac)}
+.cats div{position:relative}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:9px 14px;font-weight:600}
+.btn{background:var(--pr);color:var(--prt);width:100%;margin-top:16px;padding:12px}
+.sm{background:var(--pr);color:var(--prt);font-size:.82rem;padding:7px 12px}
+.hint{font-size:.8rem;color:var(--mu);margin-top:6px}
+.mode{font-size:.8rem;padding:8px 12px;border-radius:10px;background:var(--wbg);color:var(--warn);margin-bottom:14px}
+.mode.ok{background:var(--ac);color:var(--pr)}
+.sum{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.sum div{background:var(--ac);border-radius:10px;padding:8px;text-align:center;font-size:.75rem;color:var(--mu)}
+.sum b{display:block;font-size:1.3rem;color:var(--pr)}
+.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.filters select,.me select{padding:8px}
+.me{display:flex;gap:8px;align-items:center;margin-bottom:12px;font-size:.85rem;font-weight:600}
+.me select{width:auto;flex:1}
+.t{border:1px solid var(--bd);border-radius:12px;padding:12px;margin-top:10px}
+.t small{color:var(--mu)}
+.badge{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:99px;background:var(--ac);color:var(--pr);font-weight:700;margin-left:6px}
+.badge.p{background:var(--wbg);color:var(--warn)}
+.t p{margin:6px 0;font-size:.9rem;white-space:pre-wrap}
+.pic{margin:8px 0;padding:8px 10px;border-radius:8px;background:var(--ac);font-size:.88rem}
+.pic.none{background:var(--wbg);color:var(--warn)}
+.acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.acts select{width:auto;padding:6px 8px;font-size:.82rem}
+.acts a{color:var(--wa);font-weight:600;font-size:.85rem;text-decoration:none}
+details{margin-top:8px;font-size:.8rem;color:var(--mu)}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--wa);color:#fff;padding:13px 18px;border-radius:99px;text-decoration:none;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+#ok{display:none;border-color:var(--pr)}
+.hide{display:none}
+.ct{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ct a{display:block;text-align:center;padding:10px;border:1px solid var(--bd);border-radius:10px;color:var(--wa);font-weight:600;text-decoration:none;font-size:.9rem}
+@media(max-width:560px){.filters,.sum{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div class="w"><h1>🩺 IT Support Fakultas Kedokteran</h1><p>Sampaikan kendala Anda, tim IT akan menindaklanjuti.</p>
+<div class="tabs"><button id="tb1" class="on">Buat Tiket</button><button id="tb2" style="display:none">Dashboard Tim IT</button></div></div></header>
+<main>
+<div id="mode" class="mode" style="display:none"></div>
+
+<section id="v1">
+<div class="card">
+<h2>Buat Tiket Baru</h2>
+<label for="nama">Nama lengkap</label><input id="nama" placeholder="Nama Anda">
+<label for="lokasi">Unit / Ruangan</label><input id="lokasi" placeholder="cth. Lab Anatomi, Gedung B Lt.2">
+<label>Kategori masalah</label>
+<div class="cats">
+<div><input type="radio" name="kat" id="k1" value="Hardware" checked><label for="k1"><span>🖥️</span>Hardware</label></div>
+<div><input type="radio" name="kat" id="k2" value="Software"><label for="k2"><span>💿</span>Software</label></div>
+<div><input type="radio" name="kat" id="k3" value="Jaringan"><label for="k3"><span>📶</span>Jaringan</label></div>
+</div>
+<label for="prio">Prioritas</label>
+<select id="prio"><option>Rendah</option><option selected>Sedang</option><option>Tinggi (mengganggu kegiatan belajar/ujian/pelayanan)</option></select>
+<label for="desk">Jelaskan masalahnya</label>
+<textarea id="desk" placeholder="Apa yang terjadi? Sejak kapan? Pesan error yang muncul?"></textarea>
+<button class="btn" id="kirim">Kirim Tiket</button>
+</div>
+<div class="card"><h2>Hubungi Tim IT Langsung</h2><div class="hint" style="margin:0 0 8px">Untuk hal mendesak, chat langsung petugas IT lewat WhatsApp.</div><div id="kontak" class="ct"></div></div>
+<div class="card" id="ok">
+<h2>✅ Tiket berhasil dibuat</h2>
+<p id="okt" style="margin:0 0 8px"></p>
+<div class="hint">Tiket sudah masuk ke dashboard tim IT dan akan ditugaskan ke petugas.</div>
+</div>
+</section>
+
+<section id="v2" class="hide">
+<div class="card">
+<h2>Dashboard Tim IT</h2>
+<div class="me"><span>Saya petugas:</span><select id="me"></select></div>
+<div class="sum" id="sum"></div>
+<div class="filters">
+<select id="fs"><option value="">Semua status</option><option>Baru</option><option>Diproses</option><option>Selesai</option></select>
+<select id="fk"><option value="">Semua kategori</option><option>Hardware</option><option>Software</option><option>Jaringan</option></select>
+<select id="fp"><option value="">Semua petugas</option><option value="_none">Belum ditugaskan</option></select>
+</div>
+<div id="list"></div>
+</div>
+</section>
+</main>
+<a class="fab" id="fab" target="_blank" rel="noopener">💬 Chat WhatsApp</a>
+
+<script>
+// ===== PENGATURAN =====
+var WA_NUMBER="6285343610027";                       // nomor WA umum (default: Ardiansyah)
+var WA_MAP={"Ardiansyah":"6285343610027","Edy Setiawan":"6285246578515","Syamsul":"6281242101478","Akbar":"628982195458","Doddy":"6282216149935","Dg Sau":"6285343922229"};
+var IT_TEAM=Object.keys(WA_MAP);
+// ======================
+var tickets=[],col=null,shared=false,KEY="eticket_fk",MEKEY="eticket_me";
+function $(i){return document.getElementById(i)}
+function esc(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML}
+function wa(t,to){return "https://wa.me/"+(to||WA_NUMBER)+"?text="+encodeURIComponent(t)}
+function msg(t){return "*TIKET IT SUPPORT - FK*\nNo: "+t.id+"\nNama: "+t.nama+"\nLokasi: "+t.lokasi+"\nKategori: "+t.kat+"\nPrioritas: "+t.prio+"\nPetugas: "+(t.assignee||"-")+"\n\nMasalah:\n"+t.desk}
+function fmt(iso){try{return new Date(iso).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"})}catch(e){return iso}}
+$("fab").href=wa("Halo IT Support Fakultas Kedokteran, saya butuh bantuan.");
+
+// tab
+function tab(n){$("v1").className=n==1?"":"hide";$("v2").className=n==2?"":"hide";$("tb1").className=n==1?"on":"";$("tb2").className=n==2?"on":""}
+$("tb1").onclick=function(){tab(1)};$("tb2").onclick=function(){tab(2)};
+
+// petugas
+$("kontak").innerHTML=IT_TEAM.map(function(n){return '<a target="_blank" rel="noopener" href="'+wa("Halo "+n+", saya dari Fakultas Kedokteran, butuh bantuan IT.",WA_MAP[n])+'">💬 '+esc(n)+'</a>'}).join("");
+var opts='<option value="">— pilih nama —</option>'+IT_TEAM.map(function(n){return '<option>'+esc(n)+'</option>'}).join("");
+$("me").innerHTML=opts;
+$("fp").innerHTML+=IT_TEAM.map(function(n){return '<option>'+esc(n)+'</option>'}).join("");
+try{$("me").value=localStorage.getItem(MEKEY)||""}catch(e){}
+$("me").onchange=function(){try{localStorage.setItem(MEKEY,$("me").value)}catch(e){}};
+
+// penyimpanan (bersama via database; cadangan: lokal)
+function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(tickets))}catch(e){}}
+function setMode(){var m=$("mode");if(shared){m.className="mode ok";m.textContent="🟢 Mode bersama: seluruh tiket tersinkron untuk semua petugas IT."}else{m.className="mode";m.textContent="🟡 Mode lokal: tiket hanya tersimpan di browser ini (database bersama tidak tersedia)."}}
+function initLocal(){shared=false;try{tickets=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){tickets=[]}setMode();render()}
+function addTicket(t){
+  if(col){col.add(t).catch(function(){alert("Gagal menyimpan tiket ke database bersama (periksa izin akses).")})}
+  else{t._id="l"+Date.now();tickets.unshift(t);saveLocal();render()}
+}
+function patch(id,p){
+  if(col){col.doc(id).update(p).catch(function(){alert("Gagal memperbarui tiket (periksa izin akses).")})}
+  else{tickets.forEach(function(t){if(t._id===id)Object.assign(t,p)});saveLocal();render()}
+}
+(async function(){
+  var canEdit=false;
+  try{var u=await claude.use("user");if(u)canEdit=!!(await u.canEdit())}catch(e){}
+  try{
+    var db=await claude.use("db");
+    if(db){col=db.collection("tickets");shared=true;
+      col.onSnapshot(function(sn){tickets=sn.docs.map(function(d){return Object.assign({_id:d.id},d.data())});render()},function(){tickets=[];render()})}
+  }catch(e){}
+  if(!shared)initLocal();
+  // hanya editor (petugas IT) yang melihat dashboard; mode lokal tidak berisi data bersama
+  var admin=canEdit||!shared;
+  $("tb2").style.display=admin?"":"none";
+  $("mode").style.display=admin?"":"none";
+  if(!admin)tab(1);
+  setMode();
+})();
+setMode();
+
+// buat tiket
+$("kirim").onclick=function(){
+  var v=function(i){return $(i).value.trim()};
+  if(!v("nama")||!v("lokasi")||!v("desk")){alert("Mohon lengkapi nama, unit/ruangan, dan deskripsi masalah.");return}
+  var d=new Date(),id="TKT-"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0")+"-"+Math.random().toString(36).slice(2,5).toUpperCase();
+  var t={id:id,nama:v("nama"),lokasi:v("lokasi"),kat:document.querySelector('input[name=kat]:checked').value,prio:v("prio"),desk:v("desk"),
+    status:"Baru",assignee:"",assignedAt:"",waktu:d.toISOString(),log:[{w:d.toISOString(),t:"Tiket dibuat oleh "+v("nama")}]};
+  addTicket(t);
+  $("okt").textContent="Nomor tiket Anda: "+id;$("ok").style.display="block";$("desk").value="";
+  $("ok").scrollIntoView({behavior:"smooth"});
+};
+
+// dashboard
+function actor(){return $("me").value}
+function assign(id,name){
+  var t=tickets.filter(function(x){return x._id===id})[0];if(!t)return;
+  var now=new Date().toISOString();
+  patch(id,{assignee:name,assignedAt:name?now:"",status:name&&t.status==="Baru"?"Diproses":t.status,
+    log:(t.log||[]).concat([{w:now,t:name?("Ditugaskan ke "+name+(actor()?" (oleh "+actor()+")":"")):"Penugasan dibatalkan"}])});
+}
+function setStatus(id,s){
+  var t=tickets.filter(function(x){return x._id===id})[0];if(!t)return;
+  patch(id,{status:s,log:(t.log||[]).concat([{w:new Date().toISOString(),t:"Status diubah ke "+s+(actor()?" oleh "+actor():"")}])});
+}
+function render(){
+  var fs=$("fs").value,fk=$("fk").value,fp=$("fp").value;
+  var all=tickets.slice().sort(function(a,b){return (b.waktu||"").localeCompare(a.waktu||"")});
+  var c=function(s){return all.filter(function(t){return t.status===s}).length};
+  $("sum").innerHTML='<div><b>'+all.length+'</b>Total</div><div><b>'+all.filter(function(t){return !t.assignee&&t.status!=="Selesai"}).length+'</b>Belum ditugaskan</div><div><b>'+c("Diproses")+'</b>Diproses</div><div><b>'+c("Selesai")+'</b>Selesai</div>';
+  var list=all.filter(function(t){return (!fs||t.status===fs)&&(!fk||t.kat===fk)&&(!fp||(fp==="_none"?!t.assignee:t.assignee===fp))});
+  if(!list.length){$("list").innerHTML='<div class="hint" style="margin-top:12px">Belum ada tiket.</div>';return}
+  $("list").innerHTML=list.map(function(t){
+    var pic=t.assignee?'<div class="pic">👤 Ditangani oleh <b>'+esc(t.assignee)+'</b> • sejak '+esc(fmt(t.assignedAt))+'</div>':'<div class="pic none">⚠️ Belum ada petugas yang menangani</div>';
+    var so=["Baru","Diproses","Selesai"].map(function(s){return '<option'+(t.status===s?" selected":"")+'>'+s+'</option>'}).join("");
+    var ao='<option value="">Tugaskan ke…</option>'+IT_TEAM.map(function(n){return '<option'+(t.assignee===n?" selected":"")+'>'+esc(n)+'</option>'}).join("");
+    var log=(t.log||[]).map(function(l){return '<div>'+esc(fmt(l.w))+' — '+esc(l.t)+'</div>'}).join("");
+    return '<div class="t"><b>'+esc(t.id)+'</b><span class="badge">'+esc(t.kat)+'</span><span class="badge">'+esc(t.status)+'</span><span class="badge p">'+esc((t.prio||"").split(" ")[0])+'</span><br><small>'+esc(t.nama)+' • '+esc(t.lokasi)+' • '+esc(fmt(t.waktu))+'</small><p>'+esc(t.desk)+'</p>'+pic+
+    '<div class="acts">'+(t.assignee?'':'<button class="sm" data-a="take" data-id="'+t._id+'">Ambil tiket ini</button>')+
+    '<select data-a="asg" data-id="'+t._id+'">'+ao+'</select><select data-a="st" data-id="'+t._id+'">'+so+'</select><a target="_blank" rel="noopener" href="'+wa(msg(t),WA_MAP[t.assignee])+'">Kirim ke WA'+(t.assignee?" "+esc(t.assignee):"")+' ↗</a></div>'+
+    '<details><summary>Riwayat</summary>'+log+'</details></div>'
+  }).join("");
+}
+$("list").onclick=function(e){var b=e.target;if(b.dataset&&b.dataset.a==="take"){if(!actor()){alert("Pilih nama Anda dulu pada 'Saya petugas'.");return}assign(b.dataset.id,actor())}};
+$("list").onchange=function(e){var s=e.target;if(!s.dataset)return;if(s.dataset.a==="asg")assign(s.dataset.id,s.value);if(s.dataset.a==="st")setStatus(s.dataset.id,s.value)};
+["fs","fk","fp"].forEach(function(i){$(i).onchange=render});
+</script>
+</body>
+</html>
